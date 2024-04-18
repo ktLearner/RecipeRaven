@@ -13,14 +13,14 @@ function ProtectedRoute({ children }) {
     if (user === null) navigate("/login", {replace: true});
   }, [navigate, user]);
 
-  return children
+  return children;
 }
 
 export default function App() {
   return <BrowserRouter>
     <Routes>
       <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-      <Route path="/login" element={<Login />}></Route>
+      <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
     </Routes>
   </BrowserRouter>
