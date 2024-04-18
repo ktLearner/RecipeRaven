@@ -1,0 +1,19 @@
+{
+  "name": "nodetexttospeech",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/text-to-speech": "^5.2.0",
+    "dotenv": "^16.4.5",
+    "nodemon": "^3.1.0",
+    "say": "^0.16.0"
+  }
+}
