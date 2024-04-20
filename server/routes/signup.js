@@ -14,7 +14,7 @@ router.post("/", (req, res) => {
       };
       const key = createJWT({ uname: userDoc.uname, uid: userDoc.uid });
       console.log("User created!");
-      res.send({ "message": "Success!", key, data });
+      res.send({ "message": "Success!", data });
     })
     .catch(e => {
       console.log("Error occurred!");
