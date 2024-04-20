@@ -9,10 +9,10 @@ async function auth(req, res, next) {
     uname: /.+/i
   }
 
-  if (!(3 < uname.length <= 10)) return res.status(400).send({message: null, error: "Username length must be between 3 and 10"});
-  if (!reg.email.test(email)) return res.status(400).send({message: null, error: "Invalid email!"})
-  if (await userModel.exists({ uname })) return res.status(403).send({message: null, error: "User with that username already exists!"});
-  if (await userModel.exists({ email })) return res.status(403).send({message: null, error: "User with that email already exists!"});
+  if (!(3 < uname.length <= 10)) return res.status(400).send({error: "Username length must be between 3 and 10"});
+  if (!reg.email.test(email)) return res.status(400).send({error: "Invalid email!"})
+  if (await userModel.exists({ uname })) return res.status(403).send({ error: "User with that username already exists!"});
+  if (await userModel.exists({ email })) return res.status(403).send({error: "User with that email already exists!"});
 
   const salt = await bcrypt.genSalt();
   const hashed = await bcrypt.hash(pass, salt);
