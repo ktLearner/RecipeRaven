@@ -16,6 +16,8 @@ async function auth(req, res, next) {
   if (!passCheck) return res.status(401).send({ error: "Wrong password" });
   
   req.uid = user.uid;
+  req.uname = user.uname;
+  req.avatar = user.avatar;
 
   next();
 }

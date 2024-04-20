@@ -45,14 +45,13 @@ export default function Signup() {
     setStatus("loading");
     let data = new FormData(e.target);
     data = Object.fromEntries(data);
-    data["avatar-input"] = avatar;
+    data["avatar"] = avatar;
     data["uid"] = crypto.randomUUID();
 
     server.post("signup", data)
-      .then(req => {
-        console.log(req.data);
+      .then(res => {
         setStatus("success");
-        loginUser(req.data);
+        loginUser({...res.data});
         navigate("/");
       })
       .catch(res => {

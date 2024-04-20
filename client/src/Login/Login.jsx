@@ -38,7 +38,7 @@ export default function Login() {
       .then(res => {
         setStatus("success");
         const { data: resData } = res;
-        loginUser(res);
+        loginUser({...res.data});
         navigate("/");
       })
       .catch(res => {

@@ -7,9 +7,14 @@ const { createJWT } = require("../helpers/jwts");
 router.post("/", (req, res) => {
   userModel.create(req.body)
     .then(userDoc => {
+      const data = {
+        uname: userDoc.uname,
+        avatar: userDoc.avatar,
+
+      };
       const key = createJWT({ uname: userDoc.uname, uid: userDoc.uid });
       console.log("User created!");
-      res.send({ "message": "Success!", key });
+      res.send({ "message": "Success!", key, data });
     })
     .catch(e => {
       console.log("Error occurred!");

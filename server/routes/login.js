@@ -4,7 +4,11 @@ const router = express.Router();
 
 router.post("/", (req, res) => {
   const key = createJWT({ uname: req.uname, uid: req.uid });
-  res.send({ message: "Success", key});
+  const data = {
+    uname: req.uname,
+    avatar: req.avatar
+  };
+  res.send({ message: "Success", key, data});
 });
 
 module.exports = router;
