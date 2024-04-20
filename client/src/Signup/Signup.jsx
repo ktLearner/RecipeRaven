@@ -1,17 +1,21 @@
 import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "../Login/PasswordInput";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import generateAvatar from "../../helpers/generateAvatar";
 import reactLogo from "../assets/react.svg";
 import { server } from "../../helpers/server";
 import { FaCheck } from "react-icons/fa";
 import { debounce, throttle } from "../../helpers/utils";
+import { v5 } from "uuid";
+import crypot from "crypto";
+import { useAuth } from "../contexts/AuthProvider";
 
 export default function Signup() {
   const [avatar, setAvatar] = useState(generateAvatar());
   const [status, setStatus] = useState("idle"); // idle, loading, success, error
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { loginUser } = useAuth();
 
   const btnVariantMap = {
     idle : "btn-accent",
@@ -40,13 +44,15 @@ export default function Signup() {
     
     setStatus("loading");
     let data = new FormData(e.target);
-    data = Object.fromEntries([...data]);
+    data = Object.fromEntries(data);
     data["avatar-input"] = avatar;
+    data["uid"] = crypto.randomUUID();
 
     server.post("signup", data)
       .then(req => {
         console.log(req.data);
         setStatus("success");
+        loginUser(req.data);
         navigate("/");
       })
       .catch(res => {
@@ -55,16 +61,12 @@ export default function Signup() {
       });
   }
 
-  const [dummy, setDummy] = useState("");
-  const inputListener = throttle(setDummy);
-
   return <form method="post" onSubmit={upload} className="p-8 gap-4 bg-base-300 card fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-max shadow-lg">
     <h1 className="text-xl p-4 text-center font-bold text-accent bg-base-200 rounded">Sign up <img className="inline animate-spin duration-100" src={reactLogo} /></h1>
     <div className="divider m-0 p-0"></div>
-    <div className="border rounded p-4 border-base-100">{dummy}</div>
     <div className="grid grid-cols-2 items-center">
       <label htmlFor="uname">Username</label>
-      <input onInput={e => inputListener(e.target.value)} className="input input-bordered input-ghost" required placeholder="Username" name="uname" id="uname" />
+      <input className="input input-bordered input-ghost" required placeholder="Username" name="uname" id="uname" />
     </div>
     <div className="grid grid-cols-2 items-center">
       <label htmlFor="email">Email</label>

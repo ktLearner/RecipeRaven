@@ -1,13 +1,24 @@
 export function throttle(fn, delay=1000) {
-  let flag = false;
+  let timer = null;
+  let latestArgs = null;
 
   return (...args) => {
-    if (!flag) fn(...args);
-    flag = true;
+    let returnValue;
 
-    setTimeout(() => {
-      flag = false;
+    if (timer !== null) {
+      latestArgs = [...args];
+      return returnValue;
+    }
+
+    returnValue = fn(...args);
+    
+    timer = setTimeout(() => {
+      if (latestArgs !== null) fn(...latestArgs);
+
+      timer = null;
     }, delay);
+    
+    return returnValue;
   }
 }
 
@@ -16,9 +27,12 @@ export function debounce(fn, delay=1000) {
 
   return (...args) => {
     clearTimeout(timeout);
+    let returnValue;
 
     timeout = setTimeout(() => {
-      fn(...args)
+      returnValue = fn(...args);
     }, delay);
+
+    return returnValue;
   }
 }
