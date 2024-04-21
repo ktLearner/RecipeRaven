@@ -33,7 +33,7 @@ export default function Signup() {
 
   function uploadAvatar(e) {
     const file = e.target.files[0];
-    if (file.size > 1100000) return alert("Avatar image file size can't be >11KB");
+    if (file.size > 11000) return alert("Avatar image file size can't be >11KB");
     const reader = new FileReader;
     reader.readAsDataURL(file);
 
