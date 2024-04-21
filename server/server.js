@@ -16,7 +16,7 @@ const middlewares = {
 };
 
 dotenv.config({
-  path: "../.env"
+  path: "../.env.example"
 });
 
 mongoose.connect(process.env.DATABASE_URL)
