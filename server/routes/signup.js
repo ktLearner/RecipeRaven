@@ -10,8 +10,8 @@ router.post("/", (req, res) => {
       const data = {
         uname: userDoc.uname,
         avatar: userDoc.avatar,
-
       };
+      
       const key = createJWT({ uname: userDoc.uname, uid: userDoc.uid });
       console.log("User created!");
       res.send({ "message": "Success!", data });

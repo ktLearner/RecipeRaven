@@ -33,8 +33,10 @@ export default function Signup() {
 
   function uploadAvatar(e) {
     const file = e.target.files[0];
+    if (file.size > 1100000) return alert("Avatar image file size can't be >11KB");
     const reader = new FileReader;
     reader.readAsDataURL(file);
+
     reader.addEventListener("load", () => setAvatar(reader.result));
   }
 
@@ -55,8 +57,9 @@ export default function Signup() {
         navigate("/");
       })
       .catch(res => {
+        console.log(res);
         setStatus("error");
-        setError(res.response.data.error);
+        setError(res.response.data.error || res.message);
       });
   }
 

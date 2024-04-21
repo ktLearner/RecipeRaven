@@ -13,7 +13,7 @@ router.post("/", (req, res) => {
   res.cookie("auth-token", key, {
     httpOnly: true,
     secure: false,
-    expires: moment().add(15, "min").format()
+    expiresIn: moment().add(15, "min").format()
   });
   res.send({ message: "Success", data});
 });

@@ -43,7 +43,7 @@ export default function Login() {
       })
       .catch(res => {
         setStatus("error");
-        setError(res.response.data.error);
+        setError(res.response.data.error || res.message);
       });
   }
 
@@ -55,11 +55,11 @@ export default function Login() {
     <div className="divider m-0 p-0"></div>
     <div className="grid grid-cols-2 items-center">
       <label htmlFor="uname">Username or Email</label>
-      <input className="input input-bordered input-ghost" placeholder="Username/Email" name="uname" id="uname" />
+      <input className="input input-bordered input-ghost" placeholder="Username/Email" name="uname" id="uname" required />
     </div>
     <div className="grid grid-cols-2 items-center">
       <label htmlFor="pass">Password</label>
-      <PasswordInput placeholder="Password" name="pass" id="pass" />
+      <PasswordInput placeholder="Password" name="pass" id="pass" required />
     </div>
     {status === "error" && <div className="border rounded p-4 border-error text-error">{error}</div>}
     <button className={`btn ${btnVariantMap[status]} hover:scale-105`}>Log In {statusIconMap[status]}</button>
