@@ -22,7 +22,7 @@ export default function Home() {
           <div className="pt-2">
             <ul className="flex flex-col p-2">
               <li className="p-2 rounded cursor-pointer bg-base-200 transition hover:brightness-110">Create new Recipe</li>
-              <li className="p-2 rounded cursor-pointer bg-base-200 transition hover:brightness-110">Sign out</li>
+              <li onMouseDown={signOutUser} className="p-2 rounded cursor-pointer bg-base-200 transition hover:brightness-110">Sign out</li>
             </ul>
           </div>
         </div>

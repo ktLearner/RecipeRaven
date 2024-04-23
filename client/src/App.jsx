@@ -26,7 +26,7 @@ function ProtectedRoute({ children }) {
 
   useEffect(() => {
     if (user === null && checkCookie) return navigate("/login");
-  }, [user, navigate]);
+  }, [user, checkCookie]);
   
   return children;
 }
