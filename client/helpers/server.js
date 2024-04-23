@@ -7,5 +7,4 @@ export function getServer(...path) {
 export const server = axios.create({
   baseURL: getServer(),
   withCredentials: true,
-  timeout: 3e3,
 });

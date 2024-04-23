@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
+import { server } from "../../helpers/server";
 
 const AuthContext = createContext();
 
@@ -15,6 +16,9 @@ export function AuthProvider({ children }) {
 
   function signOutUser() {
     setUser(null);
+    server.get("signout", { withCredentials: true })
+      .then(console.log)
+      .catch(console.log);
   }
 
   return <AuthContext.Provider value={{

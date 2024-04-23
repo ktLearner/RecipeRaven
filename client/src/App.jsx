@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthProvider";
 import { lazy, useEffect } from "react";
+import { server } from "../helpers/server";
 // import Home from "./Home/Home";
 // import Login from "./Login/Login";
 // import Signup from "./Signup/Signup";
@@ -12,10 +13,15 @@ const Signup = lazy(() => import("./Signup/Signup"));
 
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, loginUser } = useAuth();
 
   useEffect(() => {
-    if (user === null) navigate("/login", {replace: true});
+    server.get("fetchuser").then(res => {
+      const { data } = res;
+
+      if (data) loginUser({ data });
+      else return navigate("/login");
+    }).catch(console.log);
   }, [navigate, user]);
 
   return children;

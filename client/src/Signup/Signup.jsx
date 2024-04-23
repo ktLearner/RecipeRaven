@@ -57,7 +57,6 @@ export default function Signup() {
         navigate("/");
       })
       .catch(res => {
-        console.log(res);
         setStatus("error");
         setError(res.response.data.error || res.message);
       });

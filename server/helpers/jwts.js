@@ -4,30 +4,39 @@ function createJWT(obj) {
   return jwt.sign(obj, process.env.JWT_ACCESS_KEY);
 }
 
-function verifyJWT(obj, header) {
+function verifyJWT(token) {
+  let error = null, data = null;
+
+  jwt.verify(token, process.env.JWT_ACCESS_KEY, (err, obj) => {
+    if (err) return error = err;
+    data = obj;
+	});
+
+  return { data, error };
+}
+
+function verifyJWTFromHeader(header) {
   const authHeader = header["authorization"];
 	const uToken = authHeader?.split(" ")[1];
-  let error = null;
-  let data = null;
 
   if (!uToken) {
     error = {
       name: "authHeaderNotProvided",
       message: "No auth header found"
     };
-    return {verified: false, error};
+    return {data: null, error};
   };
 
-	jwt.verify(uToken, process.env.JWT_ACCESS_KEY, (err, obj) => {
-    if (err) return error = err;
-    data = obj;
-	});
+  return verifyJWT(error, data);
+}
 
-  if (error) return {verified: false, error};
-  return {verified: true, data};
+function tokenFromCookie(req) {
+  return req.cookies["auth-token"];
 }
 
 module.exports = {
   createJWT,
-  verifyJWT
+  verifyJWT,
+  verifyJWTFromHeader,
+  tokenFromCookie
 }

@@ -14,6 +14,11 @@ router.post("/", (req, res) => {
       
       const key = createJWT({ uname: userDoc.uname, uid: userDoc.uid });
       console.log("User created!");
+      res.cookie("auth-token", key, {
+        httpOnly: true,
+        secure: false,
+        expiresIn: moment().add(10, "day").format()
+      });
       res.send({ "message": "Success!", data });
     })
     .catch(e => {
