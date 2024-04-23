@@ -6,8 +6,6 @@ import reactLogo from "../assets/react.svg";
 import { server } from "../../helpers/server";
 import { FaCheck } from "react-icons/fa";
 import { debounce, throttle } from "../../helpers/utils";
-import { v5 } from "uuid";
-import crypot from "crypto";
 import { useAuth } from "../contexts/AuthProvider";
 
 export default function Signup() {

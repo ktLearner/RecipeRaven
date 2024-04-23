@@ -1,29 +1,32 @@
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthProvider";
-import { lazy, useEffect } from "react";
+import { lazy, useEffect, useState } from "react";
 import { server } from "../helpers/server";
-// import Home from "./Home/Home";
-// import Login from "./Login/Login";
-// import Signup from "./Signup/Signup";
 
 const Home = lazy(() => import("./Home/Home"));
 const Login = lazy(() => import("./Login/Login"));
 const Signup = lazy(() => import("./Signup/Signup"));
 
-
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
   const { user, loginUser } = useAuth();
+  const [ checkCookie, setCheckCookie ] = useState(false);
 
   useEffect(() => {
     server.get("fetchuser").then(res => {
       const { data } = res;
 
       if (data) loginUser({ data });
-      else return navigate("/login");
+      setCheckCookie(true);
     }).catch(console.log);
-  }, [navigate, user]);
 
+    return () => setCheckCookie(false);
+  }, []);
+
+  useEffect(() => {
+    if (user === null && checkCookie) return navigate("/login");
+  }, [user, navigate]);
+  
   return children;
 }
 

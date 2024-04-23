@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useAuth } from "../contexts/AuthProvider"
 
 export default function Home() {
