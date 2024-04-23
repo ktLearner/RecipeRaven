@@ -10,7 +10,7 @@ export default function Home() {
     <span className="text-2xl font-bold">Recipe<b className="text-yellow-300">Raven</b></span>
     <div className="flex items-center gap-2">
       <div>{user?.data.uname}</div>
-      <div className="dropdown dropdown-end dropdown-open">
+      <div className="dropdown dropdown-end">
         <div tabIndex={0} role="button" className="h-16 w-16">
           <img src={user?.data.avatar} className="h-full w-full" />
         </div>
