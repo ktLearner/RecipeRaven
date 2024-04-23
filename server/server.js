@@ -23,9 +23,14 @@ dotenv.config({
 mongoose.connect(process.env.DATABASE_URL)
   .then(() => console.log("db connected"));
 
+const WHITELIST_URLS = process.env.CLIENT_URLS.split(" ");
+
 app.use(cors({
   credentials: true,
-  origin: process.env.CLIENT_URL
+  origin: (origin, res) => {
+    if (WHITELIST_URLS.includes(origin)) res(null, true)
+    else res(new Error("Not allowed by CORS"));
+  }
 }));
 
 app.use(express.json());
