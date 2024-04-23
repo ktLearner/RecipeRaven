@@ -6,6 +6,7 @@ import { server } from "../helpers/server";
 const Home = lazy(() => import("./Home/Home"));
 const Login = lazy(() => import("./Login/Login"));
 const Signup = lazy(() => import("./Signup/Signup"));
+const Profile = lazy(() => import("./Profile/Profile"));
 
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ export default function App() {
       <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>}></Route>
     </Routes>
   </BrowserRouter>
 }
