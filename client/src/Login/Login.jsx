@@ -38,12 +38,12 @@ export default function Login() {
       .then(res => {
         setStatus("success");
         const { data: resData } = res;
-        loginUser({...res.data});
+        loginUser({...resData});
         navigate("/");
       })
-      .catch(res => {
+      .catch(err => {
         setStatus("error");
-        setError(res.response.data.error || res.message);
+        setError(err.response.data.error || err.message);
       });
   }
 

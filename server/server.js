@@ -3,6 +3,7 @@ const app = express();
 const dotenv = require("dotenv");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 
 const routes = {
   login : require("./routes/login"),
@@ -22,8 +23,13 @@ dotenv.config({
 mongoose.connect(process.env.DATABASE_URL)
   .then(() => console.log("db connected"));
 
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: process.env.CLIENT_URL
+}));
+
 app.use(express.json());
+app.use(cookieParser());
 app.use("/login", middlewares.login, routes.login);
 app.use("/signup", middlewares.signup, routes.signup);
 

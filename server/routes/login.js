@@ -10,12 +10,16 @@ router.post("/", (req, res) => {
     avatar: req.avatar
   };
 
-  res.cookie("auth-token", key, {
+  res.cookie("auth-token", `Bearer ${key}`, {
     httpOnly: true,
     secure: false,
-    expiresIn: moment().add(15, "min").format()
+    expiresIn: moment().add(10, "day").format()
   });
   res.send({ message: "Success", data});
+});
+
+router.post("/getuser", (req, res) => {
+
 });
 
 module.exports = router;

@@ -2,6 +2,8 @@ const userModel = require("../models/User");
 const bcrypt = require("bcrypt");
 
 async function auth(req, res, next) {
+  console.log(req.cookies);
+
   const data = req.body;
   const user = await userModel.findOne({
     $or: [
