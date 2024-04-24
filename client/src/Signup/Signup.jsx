@@ -60,18 +60,18 @@ export default function Signup() {
       });
   }
 
-  return <form method="post" onSubmit={upload} className="p-8 gap-4 bg-base-300 card fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-max shadow-lg">
+  return <form method="post" onSubmit={upload} className="p-8 gap-2 sm:gap-4 bg-base-300 card fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 sm:w-max shadow-lg">
     <h1 className="text-xl p-4 text-center font-bold text-accent bg-base-200 rounded">Sign up <img className="inline animate-spin duration-100" src={reactLogo} /></h1>
     <div className="divider m-0 p-0"></div>
-    <div className="grid grid-cols-2 items-center">
+    <div className="grid grid-rows-2 sm:grid-rows-none sm:grid-cols-2 items-center">
       <label htmlFor="uname">Username</label>
       <input className="input input-bordered input-ghost" required placeholder="Username" name="uname" id="uname" />
     </div>
-    <div className="grid grid-cols-2 items-center">
+    <div className="grid grid-rows-2 sm:grid-rows-none sm:grid-cols-2 items-center">
       <label htmlFor="email">Email</label>
       <input className="input input-bordered input-ghost" required placeholder="Email" name="email" id="email" />
     </div>
-    <div className="grid grid-cols-2 items-center">
+    <div className="grid grid-rows-2 sm:grid-rows-none sm:grid-cols-2 items-center">
       <label htmlFor="pass">Password</label>
       <PasswordInput placeholder="Password" name="pass" id="pass" required />
     </div>

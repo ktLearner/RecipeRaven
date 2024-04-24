@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "./PasswordInput";
 import reactLogo from "../assets/react.svg";
 import { server } from "../../helpers/server";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthProvider";
 import { FaCheck } from "react-icons/fa";
 
@@ -47,17 +47,17 @@ export default function Login() {
       });
   }
 
-  return <form onSubmit={upload} method="post" className="p-8 gap-4 bg-base-300 card fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-max shadow-lg">
+  return <form onSubmit={upload} method="post" className="gap-2 p-8 sm:gap-4 bg-base-300 card fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 sm:w-max shadow-lg">
     <h1 className="text-xl text-center font-bold text-accent p-4 bg-base-200 rounded">
       Log In
       <img className="inline animate-spin ml-2" src={reactLogo} />
     </h1>
     <div className="divider m-0 p-0"></div>
-    <div className="grid grid-cols-2 items-center">
+    <div className="grid grid-rows-2 sm:grid-rows-none sm:grid-cols-2 items-center">
       <label htmlFor="uname">Username or Email</label>
       <input className="input input-bordered input-ghost" placeholder="Username/Email" name="uname" id="uname" required />
     </div>
-    <div className="grid grid-cols-2 items-center">
+    <div className="grid grid-rows-2 sm:grid-rows-none sm:grid-cols-2 items-center">
       <label htmlFor="pass">Password</label>
       <PasswordInput placeholder="Password" name="pass" id="pass" required />
     </div>

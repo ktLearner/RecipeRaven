@@ -10,6 +10,7 @@ const routes = {
   login : require("./routes/login"),
   signup : require("./routes/signup"),
   fetchUser: require("./routes/fetchuser"),
+  createrecipe: require("./routes/createrecipe")
   // test: require("./routes/test"),
 };
 
@@ -45,6 +46,8 @@ app.use("/signout", (req, res) => {
 
   res.clearCookie("auth-token").send({ message: "Success!" });
 });
+
+app.use("/createrecipe", routes.createrecipe);
 app.use("/fetchuser", routes.fetchUser);
 
 // app.use("/test", routes.test);
