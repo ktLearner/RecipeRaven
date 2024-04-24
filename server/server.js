@@ -1,16 +1,18 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
+const multer = require("multer");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const { verifyJWT } = require("./helpers/jwts");
+const upload = multer();
 
 const routes = {
   login : require("./routes/login"),
   signup : require("./routes/signup"),
   fetchUser: require("./routes/fetchuser"),
-  createrecipe: require("./routes/createrecipe")
+  recipe: require("./routes/recipe")
   // test: require("./routes/test"),
 };
 
@@ -36,8 +38,12 @@ app.use(cors({
   }
 }));
 
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(express.json());
 app.use(cookieParser());
+
 app.use("/login", middlewares.login, routes.login);
 app.use("/signup", middlewares.signup, routes.signup);
 app.use("/signout", (req, res) => {
@@ -47,7 +53,7 @@ app.use("/signout", (req, res) => {
   res.clearCookie("auth-token").send({ message: "Success!" });
 });
 
-app.use("/createrecipe", routes.createrecipe);
+app.use("/recipe", upload.single("recipe-image"), routes.recipe);
 app.use("/fetchuser", routes.fetchUser);
 
 // app.use("/test", routes.test);

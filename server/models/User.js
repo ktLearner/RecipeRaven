@@ -5,7 +5,6 @@ const schema = new Schema({
     type: String,
     required: true,
   },
-
   uname: {
     type: String,
     required: true

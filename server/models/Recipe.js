@@ -1,7 +1,8 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
+const { Schema, model } = mongoose;
 
 const schema = new Schema({
-  imageUrl: String,
+  imageUrl: Buffer,
   title: {
     type: String,
     required: true
@@ -26,23 +27,25 @@ const schema = new Schema({
       required: true
     },
     time: {
-      type: Number,
+      type: String,
       required: true
     }
   }],
-  cookTime: {
-    type: Number,
-    required: true
-  },
   cuisine: {
     type: String,
     required: true
   },
   tags: [String],
   createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    name: {
+      type: String,
+      ref: "User",
+    }
   },
   createdAt: {
     type: Date,
@@ -60,6 +63,10 @@ const schema = new Schema({
     },
     review: String
   }],
-  calories: Number,
+  calories: String,
   allergens: [String],
 });
+
+const recipe = model("Recipe", schema);
+
+module.exports = recipe;

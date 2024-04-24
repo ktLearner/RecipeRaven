@@ -1,0 +1,27 @@
+import { useEffect, useState } from "react";
+import { server } from "../../helpers/server"
+import RecipeCard from "./RecipeCard";
+
+export default function YourRecipes() {
+  const [recipes, setRecipes] = useState([]);
+  
+  useEffect(() => {
+    server.get("recipe/my")
+      .then(res => {
+        setRecipes(res.data);
+      })
+      .catch(console.log);
+
+    return () => setRecipes([]);
+  }, []);
+
+  return <div className="p-4">
+    <h1 className="divider divider-start text-lg text-accent">Your recipes</h1>
+    <div className="flex">
+      {recipes.length ?
+      recipes.map(recipe => <RecipeCard key={recipe._id} {...recipe} />)
+      : "Create new Recipes!" }
+    </div>
+    
+  </div>
+}

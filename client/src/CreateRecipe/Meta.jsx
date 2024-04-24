@@ -24,7 +24,6 @@ function TagField(props) {
 
   function handleChange(e) {
     setText(e.target.innerText);
-    console.log(e.target.innerText);
   }
 
   return <span className="p-2 w-min flex rounded-box bg-accent">
@@ -47,7 +46,6 @@ function AllergenField(props) {
 
   function handleChange(e) {
     setText(e.target.innerText);
-    console.log(e.target.innerText);
   }
 
   return <span className="p-2 w-min flex rounded-box bg-primary">
@@ -57,13 +55,16 @@ function AllergenField(props) {
   </span>
 }
 
-export default function MetaData() {
+export default function MetaData(props) {
   const previewRef = useRef();
-  const id = useId();
 
   const [ingredients, setIngredients] = useState([]);
   const [tags, setTags] = useState([]);
   const [allergens, setAllergens] = useState([]);
+
+  useEffect(() => {
+    props.isIngredientsEmpty(!ingredients.length);
+  }, [ingredients]);
 
   function uploadImage(e) {
     const file = e.target.files[0];
@@ -104,31 +105,32 @@ export default function MetaData() {
 
   return <div className="flex flex-col gap-2">
     <h2 className="divider divider-start">About the recipe</h2>
-    <input required className="input" placeholder="Title" name={"name" + id} id={"name" + id} />
+    <input required className="input" placeholder="Title" name={"name"} id={"name"} />
 
     <div className="flex gap-2">
-      <textarea name={"description" + id} id={"description" + id} required className="grow input h-36 sm:h-52 resize-none" placeholder="Description" />
+      <textarea name={"description"} id={"description"} required className="grow input h-36 sm:h-52 resize-none" placeholder="Description" />
       <div className="size-36 sm:size-52 rounded-box overflow-hidden">
         <label htmlFor="recipe-image">
-          <img ref={previewRef} className="size-full" src="https://placehold.co/400/223659/FFFFFF/png?font=roboto&text=Add++recipe+image" alt="Add image" />
+          <img ref={previewRef} className="size-full cursor-pointer" src="https://placehold.co/400/223659/FFFFFF/png?font=roboto&text=Add++recipe+image" alt="Add image" />
         </label>
         <input onChange={uploadImage} className="hidden" accept="image/*" type="file" name="recipe-image" id="recipe-image" />
       </div>
     </div>
-    <input name={"cuisine" + id} id={"cuisine" + id} className="input" placeholder="Cuisine" />
-    <input name={"calories" + id} id={"calories" + id} className="input" placeholder="Calories" />
+
+    <input required name={"cuisine"} id={"cuisine"} className="input" placeholder="Cuisine" />
+    <input required name={"calories"} id={"calories"} className="input" placeholder="Calories" />
     <label>Ingredients</label>
-    {ingredients.length ? ingredients.map(ing => <IngredientField key={ing.idx} {...ing} />) : <span className="p-4">No ingredients added! (add atleast 1)</span>}
-    <button onClick={addIngredient} className="btn btn-secondary self-start btn-primary" type="button">Add ingredient <FaPlus /></button>
+    {ingredients.length ? ingredients.map(ing => <IngredientField key={ing.idx} {...ing} />) : <span className="p-4 text-warning">No ingredients added! (add atleast 1)</span>}
+    <button onClick={addIngredient} className="btn btn-neutral self-start btn-primary" type="button">Add ingredient <FaPlus /></button>
     <label>Tags</label>
     <div className="flex gap-2 items-center">
       {tags.length ? tags.map(tag => <TagField key={tag.idx} {...tag} />) : <span className="p-4">(No tags)</span>}
-      <button onClick={addTag} className="btn btn-secondary self-start btn-primary" type="button"><FaPlus /></button>
+      <button onClick={addTag} className="btn rounded-[100%] btn-neutral" type="button"><FaPlus /></button>
     </div>
     <label>Allergens</label>
     <div className="flex gap-2 items-center">
       {allergens.length ? allergens.map(allergen => <AllergenField key={allergen.idx} {...allergen} />) : <span className="p-4">(No Allergens added)</span>}
-      <button onClick={addAllergen} className="btn btn-secondary self-start btn-primary" type="button"><FaPlus /></button>
+      <button onClick={addAllergen} className="btn rounded-[100%] btn-neutral" type="button"><FaPlus /></button>
     </div>
   </div>
 }
