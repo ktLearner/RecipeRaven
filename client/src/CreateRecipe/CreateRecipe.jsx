@@ -3,6 +3,8 @@ import { server } from "../../helpers/server";
 import Instructions from "./Instructions";
 import MetaData from "./Meta";
 import { FaCheck } from "react-icons/fa";
+import Navbar from "../Navbar/Navbar";
+import { Link } from "react-router-dom";
 
 export default function CreateRecipe() {
   const [isIngredientsEmpty, setIsIngredientsEmpty] = useState(true);
@@ -33,7 +35,7 @@ export default function CreateRecipe() {
   function upload(e) {
     e.preventDefault();
 
-    // if (!["idle", "error"].includes(state)) return;
+    if (!["idle", "error"].includes(state)) return;
     if (isIngredientsEmpty) return alert("Fill in the ingredients first!");
     if (isInstructionsEmpty) return alert("Fill in the instructions first!");
 
@@ -50,7 +52,9 @@ export default function CreateRecipe() {
       });
   }
 
-  return <div className="p-4 bg-base-200">
+  return <>
+  <Navbar />
+  <div className="p-4 bg-base-200">
     <h1 className="divider divider-secondary text-primary sm:text-xl font-bold">Create new Recipe</h1>
     <form onSubmit={upload} method="post">
       <MetaData isIngredientsEmpty={setIsIngredientsEmpty} />
@@ -58,6 +62,8 @@ export default function CreateRecipe() {
       <Instructions isInstructionsEmpty={setIsInstructionsEmpty} />
       <i className="divider" />
       <button className={`btn ${btnVariantMap[state]}`}>{textMap[state]} {iconMap[state]}</button>
+      {state === "success" && <Link to="/" class="btn btn-neutral mx-2">Go back</Link>}
     </form>
   </div>
+  </>
 }

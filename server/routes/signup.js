@@ -3,6 +3,7 @@ const router = express.Router();
 
 const userModel = require("../models/User");
 const { createJWT } = require("../helpers/jwts");
+const moment = require("moment");
 
 router.post("/", (req, res) => {
   userModel.create(req.body)

@@ -35,9 +35,8 @@ function ProtectedRoute({ children }) {
 export default function App() {
   return <BrowserRouter>
     <Routes>
-      <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>}>
-        <Route path="createrecipe" element={<CreateRecipe />}  />
-      </Route>
+      <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>}/>
+      <Route path="/createrecipe" element={<ProtectedRoute><CreateRecipe /></ProtectedRoute>}  />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>}></Route>

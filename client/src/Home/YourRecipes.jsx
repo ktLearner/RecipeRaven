@@ -17,7 +17,7 @@ export default function YourRecipes() {
 
   return <div className="p-4">
     <h1 className="divider divider-start text-lg text-accent">Your recipes</h1>
-    <div className="flex">
+    <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-2">
       {recipes.length ?
       recipes.map(recipe => <RecipeCard key={recipe._id} {...recipe} />)
       : "Create new Recipes!" }
