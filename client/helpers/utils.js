@@ -36,3 +36,11 @@ export function debounce(fn, delay=1000) {
     return returnValue;
   }
 }
+
+export function imgToObjectURL(imgUrl) {
+  const view = new Uint8Array(imgUrl);
+  const blob = new Blob([view], {type: "image"});
+  const url = URL.createObjectURL(blob);
+
+  return url;
+}

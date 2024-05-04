@@ -5,8 +5,8 @@ import { useAuth } from "../contexts/AuthProvider";
 export default function Navbar() {
   const { user, signOutUser } = useAuth();
 
-  return <div className="m-2 p-4 sm:p-8 bg-base-200 rounded flex items-center justify-between">
-    <span className="text-lg sm:text-2xl font-bold">Recipe<b className="text-yellow-300">Raven</b></span>
+  return <div className="m-2 p-4 sm:p-8 bg-base-200 rounded flex items-center justify-between shadow-lg">
+    <Link to="/" className="text-lg sm:text-2xl font-bold">Recipe<b className="text-yellow-300">Raven</b></Link>
     <div className="flex items-center gap-2">
       <div className="hidden sm:visible">{user?.data.uname}</div>
       <div className="dropdown dropdown-end">
@@ -20,7 +20,7 @@ export default function Navbar() {
           </div>
           <div className="pt-2">
             <ul className="flex flex-col p-2">
-              <li className="p-2 rounded cursor-pointer bg-base-200 transition hover:brightness-110"><Link to="/createrecipe">Create new Recipe</Link></li>
+              <li className="p-2 rounded cursor-pointer bg-base-200 transition hover:brightness-110"><Link to="/recipe/create">Create new Recipe</Link></li>
               <li onMouseDown={signOutUser} className="p-2 rounded cursor-pointer bg-base-200 transition hover:brightness-110">Sign out</li>
             </ul>
           </div>

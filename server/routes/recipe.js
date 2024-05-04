@@ -3,6 +3,7 @@ const { verifyJWT } = require("../helpers/jwts");
 const { fetchUserFromUID } = require("../helpers/fetchUser");
 const router = new Router;
 const recipeModel = require("../models/Recipe");
+const auth = require("../middlewares/auth");
 
 async function recipePreprocess(req, res, next) {
   const { data: userData, error } = verifyJWT(req.cookies["auth-token"]);
@@ -78,10 +79,6 @@ async function recipePreprocess(req, res, next) {
   });
   
   serverData.imageUrl = req.file.buffer;
-  // serverData.imageUrl = {
-  //   data: req.file.buffer,
-  //   type: req.file.mimetype
-  // };
 
   req.body = serverData;
   next();
@@ -99,15 +96,24 @@ router.post("/create", recipePreprocess, (req, res) => {
     });
 });
 
-router.get("/my", async (req, res) => {
-  const { data } = verifyJWT(req.cookies["auth-token"]);
-  if (!data) return res.status(400).redirect("/login");
-  
+router.get("/my", auth, async (req, res) => {
   const myRecipes = await recipeModel.find({
-    "createdBy.name" : data.uname
+    "createdBy.name" : req.data.uname
   }).exec();
   
   res.send(myRecipes);
+});
+
+router.get("/", auth, async (req, res) => {
+  const rid = req.query["rid"];
+
+  const recipe = await recipeModel.findOne({
+    _id: rid?.toString()
+  });
+  
+  if (!recipe) return res.status(400).send({ message: "Recipe not found" });
+
+  res.send(recipe);
 });
 
 module.exports = router;

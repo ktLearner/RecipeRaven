@@ -18,7 +18,7 @@ function Instruction(props) {
     <span className="font-bold">Step {props.dynamicIdx + 1}</span>
     <div className="grid grid-cols-4 grid-rows-2 gap-2">
       <textarea onInput={e => setText(e.target.value)} onBlur={handleBlur} ref={thisRef} name={"instruction-text" + id} id={"instruction-text" + id} placeholder="Add instruction" className="input col-span-3 row-span-2 h-full resize-none"></textarea>
-      <input onInput={e => setTime(e.target.time)} name={"instruction-time" + id} id={"instruction-time" + id} className="input" type="number" placeholder="Time (in min)"></input>
+      <input onInput={e => setTime(e.target.time)} name={"instruction-time" + id} id={"instruction-time" + id} className="input" type="number" placeholder="Time (in min)" step=".1" min="0"></input>
       <button className="btn btn-error" type="button" onClick={props.onDelete}><FaTrash /></button>
     </div>
   </div>

@@ -1,18 +1,27 @@
 import { useEffect, useState } from "react";
 import { server } from "../../helpers/server"
 import RecipeCard from "./RecipeCard";
+import { Link } from "react-router-dom";
+import { FaPlus } from "react-icons/fa";
 
-export default function YourRecipes() {
+export default function YourRecipes(props) {
   const [recipes, setRecipes] = useState([]);
   
   useEffect(() => {
-    server.get("recipe/my")
+    const controller = new AbortController;
+
+    server.get("recipe/my", {
+      signal: controller.signal
+    })
       .then(res => {
         setRecipes(res.data);
       })
       .catch(console.log);
 
-    return () => setRecipes([]);
+    return () => {
+      controller.abort();
+      setRecipes([]);
+    }
   }, []);
 
   return <div className="p-4">
@@ -20,8 +29,7 @@ export default function YourRecipes() {
     <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-2">
       {recipes.length ?
       recipes.map(recipe => <RecipeCard key={recipe._id} {...recipe} />)
-      : "Create new Recipes!" }
+      : <Link to="/recipe/create" className="btn btn-primary">Create new Recipe <FaPlus /></Link> }
     </div>
-    
   </div>
 }

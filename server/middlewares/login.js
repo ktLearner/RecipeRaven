@@ -1,20 +1,10 @@
-const { tokenFromCookie, verifyJWT } = require("../helpers/jwts");
+const { verifyJWT } = require("../helpers/jwts");
 const userModel = require("../models/User");
 const bcrypt = require("bcrypt");
 
-// async function tryCookieLogin(req, res) {
-//   const cookieToken = tokenFromCookie(req);
-
-//   let data = null;
-  
-//   if (cookieToken) {
-//     const { data: d, error } = verifyJWT(cookieToken);
-//     if (error) res.clearCookie("auth-token");
-//     data = d;
-//   }
-// }
-
 async function auth(req, res, next) {
+  console.log(req.cookies["auth-token"]);
+
   const data = req.body;
   const user = await userModel.findOne({
     $or: [

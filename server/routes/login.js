@@ -13,7 +13,7 @@ router.post("/", (req, res) => {
   res.cookie("auth-token", key, {
     httpOnly: true,
     secure: false,
-    expiresIn: moment().add(10, "day").format()
+    expires: new Date(Date.now() + 10*24*60*60*1000)
   });
   
   res.send({ message: "Success", data});

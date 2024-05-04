@@ -52,9 +52,7 @@ export default function CreateRecipe() {
       });
   }
 
-  return <>
-  <Navbar />
-  <div className="p-4 bg-base-200">
+  return <div className="p-4 bg-base-200">
     <h1 className="divider divider-secondary text-primary sm:text-xl font-bold">Create new Recipe</h1>
     <form onSubmit={upload} method="post">
       <MetaData isIngredientsEmpty={setIsIngredientsEmpty} />
@@ -65,5 +63,4 @@ export default function CreateRecipe() {
       {state === "success" && <Link to="/" class="btn btn-neutral mx-2">Go back</Link>}
     </form>
   </div>
-  </>
 }

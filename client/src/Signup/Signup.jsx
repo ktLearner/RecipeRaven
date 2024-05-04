@@ -1,11 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "../Login/PasswordInput";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import generateAvatar from "../../helpers/generateAvatar";
 import reactLogo from "../assets/react.svg";
 import { server } from "../../helpers/server";
 import { FaCheck } from "react-icons/fa";
-import { debounce, throttle } from "../../helpers/utils";
 import { useAuth } from "../contexts/AuthProvider";
 
 export default function Signup() {
