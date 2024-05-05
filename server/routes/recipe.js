@@ -85,10 +85,8 @@ async function recipePreprocess(req, res, next) {
 }
 
 router.post("/create", recipePreprocess, (req, res) => {
-  console.log(req.body.imageUrl);
   recipeModel.create(req.body)
     .then(doc => {
-      console.log(doc);
       res.status(200).send({ message: "Created successfully!" });
     })
     .catch(err => {

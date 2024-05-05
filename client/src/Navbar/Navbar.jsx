@@ -6,7 +6,7 @@ export default function Navbar() {
   const { user, signOutUser } = useAuth();
 
   return <div className="m-2 p-4 sm:p-8 bg-base-200 rounded flex items-center justify-between shadow-lg">
-    <Link to="/" className="text-lg sm:text-2xl font-bold">Recipe<b className="text-yellow-300">Raven</b></Link>
+    <Link to="/" className="text-lg sm:text-2xl lg:text-3xl font-bold">Recipe<b className="text-yellow-300">Raven</b></Link>
     <div className="flex items-center gap-2">
       <div className="hidden sm:visible">{user?.data.uname}</div>
       <div className="dropdown dropdown-end">
