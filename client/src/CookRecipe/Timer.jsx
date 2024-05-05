@@ -33,7 +33,6 @@ export default function Timer(props) {
       if (time <= 1) {
         clearInterval(interval);
         setState("finished");
-        props.onComplete();
       }
 
       return time - 1;
@@ -47,7 +46,10 @@ export default function Timer(props) {
   }
 
   useEffect(() => {
-    if (state === "finished") return;
+    if (state === "finished") {
+      props.onComplete();
+      return;
+    }
     if (state === "counting") interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
   }, [state]);
