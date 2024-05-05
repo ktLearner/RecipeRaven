@@ -25,8 +25,8 @@ export default function YourRecipes(props) {
   }, []);
 
   return <div className="p-4">
-    <h1 className="divider divider-start text-lg text-accent">Your recipes</h1>
-    <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+    <h1 className="divider divider-start text-lg text-accent lg:text-2xl">Your recipes</h1>
+    <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-2 py-8">
       {recipes.length ?
       recipes.map(recipe => <RecipeCard key={recipe._id} {...recipe} />)
       : <Link to="/recipe/create" className="btn btn-primary">Create new Recipe <FaPlus /></Link> }

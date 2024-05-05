@@ -104,6 +104,11 @@ router.get("/my", auth, async (req, res) => {
   res.send(myRecipes);
 });
 
+router.get("/all", auth, async (req, res) => {
+  const allRecipes = await recipeModel.find().exec();
+  res.send(allRecipes);
+});
+
 router.get("/", auth, async (req, res) => {
   const rid = req.query["rid"];
 

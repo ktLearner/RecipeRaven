@@ -2,12 +2,13 @@ import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthProvider";
 import { lazy, useEffect, useState } from "react";
 import { server } from "../helpers/server";
-import CreateRecipe from "./CreateRecipe/CreateRecipe";
-import RecipePage from "./Recipe/RecipePage";
-import RecipeDetails from "./Recipe/Details";
-import Error404Page from "./404";
-import CookRecipe from "./CookRecipe/CookRecipe";
+import SearchPage from "./Search/SearchPage";
 
+const CreateRecipe = lazy(() => import("./CreateRecipe/CreateRecipe"));
+const RecipePage = lazy(() => import("./Recipe/RecipePage"));
+const RecipeDetails = lazy(() => import("./Recipe/Details"));
+const Error404Page = lazy(() => import("./404"));
+const CookRecipe = lazy(() => import("./CookRecipe/CookRecipe"));
 const Home = lazy(() => import("./Home/Home"));
 const Login = lazy(() => import("./Login/Login"));
 const Signup = lazy(() => import("./Signup/Signup"));
@@ -45,8 +46,9 @@ export default function App() {
         <Route path="create" element={<CreateRecipe />} />
         <Route path="cook" element={<CookRecipe />}></Route>
       </Route>
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+      <Route exact path="/login" element={<Login />} />
+      <Route exact path="/signup" element={<Signup />} />
+      <Route path="/search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>}></Route>
       <Route path="*" element={<Error404Page />}></Route>
     </Routes>
