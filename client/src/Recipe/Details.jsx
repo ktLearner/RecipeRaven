@@ -41,7 +41,6 @@ export default function RecipeDetails() {
         resData.imageUrl = imgToObjectURL(resData.imageUrl.data);
         setPageData(resData);
         setStatus("success");
-        console.log(resData);
       })
       .catch(err => {
         console.log(err);

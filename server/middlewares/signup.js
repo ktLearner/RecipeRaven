@@ -11,6 +11,7 @@ async function auth(req, res, next) {
 
   if (!(3 < uname.length <= 10)) return res.status(400).send({error: "Username length must be between 3 and 10"});
   if (!reg.email.test(email)) return res.status(400).send({error: "Invalid email!"})
+  if (pass.toString().length < 8) return res.status(400).send({error: "Password should be minimum 8 characters long"});
   if (await userModel.exists({ uname })) return res.status(403).send({ error: "User with that username already exists!"});
   if (await userModel.exists({ email })) return res.status(403).send({error: "User with that email already exists!"});
 

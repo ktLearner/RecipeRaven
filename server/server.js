@@ -12,7 +12,8 @@ const routes = {
   login : require("./routes/login"),
   signup : require("./routes/signup"),
   fetchUser: require("./routes/fetchuser"),
-  recipe: require("./routes/recipe")
+  recipe: require("./routes/recipe"),
+  search: require("./routes/search")
   // test: require("./routes/test"),
 };
 
@@ -55,6 +56,7 @@ app.use("/signout", (req, res) => {
 
 app.use("/recipe", upload.single("recipe-image"), routes.recipe);
 app.use("/fetchuser", routes.fetchUser);
+app.use("/search", routes.search);
 
 // app.use("/test", routes.test);
 

@@ -23,6 +23,7 @@ uploads
 *.njsproj
 *.sln
 *.sw?
+.prettierrc.json
 
 .env
 !.env.example

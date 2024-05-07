@@ -109,12 +109,15 @@ router.get("/all", auth, async (req, res) => {
 
 router.get("/", auth, async (req, res) => {
   const rid = req.query["rid"];
+  let recipe;
 
-  const recipe = await recipeModel.findOne({
-    _id: rid?.toString()
-  });
-  
-  if (!recipe) return res.status(400).send({ message: "Recipe not found" });
+  try {
+    recipe = await recipeModel.findOne({
+      _id: rid?.toString()
+    });
+  } catch(e) {
+    return res.status(400).send({ message: "Recipe not found" });
+  }
 
   res.send(recipe);
 });

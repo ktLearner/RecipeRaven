@@ -1,4 +1,3 @@
-const { verifyJWT } = require("../helpers/jwts");
 const userModel = require("../models/User");
 const bcrypt = require("bcrypt");
 
