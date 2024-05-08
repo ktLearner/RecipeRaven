@@ -18,6 +18,7 @@ async function auth(req, res, next) {
   req.uid = user.uid;
   req.uname = user.uname;
   req.avatar = user.avatar;
+  req.favourites = user.favourites;
 
   next();
 }

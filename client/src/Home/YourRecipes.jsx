@@ -4,7 +4,7 @@ import RecipeCard from "./RecipeCard";
 import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 
-export default function YourRecipes(props) {
+export default function YourRecipes() {
   const [recipes, setRecipes] = useState([]);
   
   useEffect(() => {

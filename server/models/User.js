@@ -1,5 +1,5 @@
-const { Schema, model } = require("mongoose");
-
+const { Schema, model, default: mongoose } = require("mongoose");
+const { schema: recipeSchema } = require("./Recipe");
 const schema = new Schema({
   uid: {
     type: String,
@@ -24,6 +24,10 @@ const schema = new Schema({
     immutable: true,
     default: () => Date.now()
   },
+  favourites: [{
+    type: Schema.Types.ObjectId,
+    ref: "Recipe"
+  }]
 });
 
 const user = model("User", schema);

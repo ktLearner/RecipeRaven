@@ -11,6 +11,8 @@ router.post("/", (req, res) => {
       const data = {
         uname: userDoc.uname,
         avatar: userDoc.avatar,
+        _id: userDoc._id,
+        favourites: userDoc.favourites
       };
       
       const key = createJWT({ uname: userDoc.uname, uid: userDoc.uid });

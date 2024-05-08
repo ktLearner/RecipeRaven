@@ -1,18 +1,15 @@
 import { FaFilter, FaSearch, FaSort } from "react-icons/fa";
-import { useRecipes } from "../hooks/recipes";
+import { useRecipeSuggestions, useRecipes } from "../hooks/recipes";
 import { debounce } from "../../helpers/utils";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import SearchResults from "./SearchResults";
-import SearchResultCards from "./SearchResultCards";
+import Sort from "./Sort";
+import Filter from "./Filter";
 
-export default function SearchBar() {
+export default function SearchBar({ setFullSearchQuery }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const { recipes, error, isLoading } = useRecipes(searchQuery);
+  const { recipes, error, isLoading } = useRecipeSuggestions(searchQuery);
   const [focused, setFocused] = useState(false);
-
-  const [fullSearchQuery, setFullSearchQuery] = useState("");
-  const { recipes: mainResults, isLoading: isLoadingMain } =
-    useRecipes(fullSearchQuery);
 
   const searchInput = useCallback(
     debounce((e) => {
@@ -27,9 +24,10 @@ export default function SearchBar() {
 
     const query = {
       q: form.q.value,
+      s: form.sort.value,
     };
 
-    setFullSearchQuery(query.q);
+    setFullSearchQuery([query.q, query.s && query.s.split(",")]);
   }
 
   return (
@@ -44,7 +42,6 @@ export default function SearchBar() {
           placeholder="Search"
           onInput={searchInput}
           onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
           name="q"
           id="q"
           autoComplete="off"
@@ -52,17 +49,11 @@ export default function SearchBar() {
         <button className="btn btn-square btn-primary join-item">
           <FaSearch />
         </button>
-        <button type="button" className="btn dropdown btn-outline join-item">
-          <FaFilter />
-          <input type="hidden" id="filter" name="filter" />
-        </button>
-        <button type="button" className="btn dropdown btn-outline join-item">
-          <FaSort />
-          <input type="hidden" id="sort" name="sort" />
-        </button>
+
+        <Filter />
+        <Sort />
       </form>
       <SearchResults hide={!focused} isLoading={isLoading} results={recipes} />
-      <SearchResultCards isLoading={isLoadingMain} results={mainResults} />
     </>
   );
 }

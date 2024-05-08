@@ -6,6 +6,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const { verifyJWT } = require("./helpers/jwts");
+const auth = require("./middlewares/auth");
 const upload = multer();
 
 const routes = {
@@ -13,7 +14,8 @@ const routes = {
   signup : require("./routes/signup"),
   fetchUser: require("./routes/fetchuser"),
   recipe: require("./routes/recipe"),
-  search: require("./routes/search")
+  search: require("./routes/search"),
+  profile: require("./routes/profile")
   // test: require("./routes/test"),
 };
 
@@ -54,9 +56,10 @@ app.use("/signout", (req, res) => {
   res.clearCookie("auth-token").send({ message: "Success!" });
 });
 
-app.use("/recipe", upload.single("recipe-image"), routes.recipe);
+app.use("/recipe", auth, upload.single("recipe-image"), routes.recipe);
 app.use("/fetchuser", routes.fetchUser);
-app.use("/search", routes.search);
+app.use("/search", auth, routes.search);
+app.use("/profile", auth, routes.profile);
 
 // app.use("/test", routes.test);
 

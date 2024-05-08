@@ -1,31 +1,30 @@
-import { useEffect, useState } from "react";
-import { server } from "../../helpers/server";
+import { useEffect, useMemo, useState } from "react";
 import RecipeCard from "./RecipeCard";
+import { useRecipesAll } from "../hooks/recipes";
+import { fetchFavs } from "../../helpers/recipe";
 
 export default function AllRecipes() {
-  const [recipes, setRecipes] = useState([]);
-  
-  useEffect(() => {
-    const controller = new AbortController;
+  const { recipes, error, isLoading } = useRecipesAll();
 
-    server.get("recipe/all", {
-      signal: controller.signal
-    })
-      .then(res => {
-        setRecipes(res.data);
-      })
-      .catch(console.log);
+  if (isLoading) return <div className="loading loading-spinner"></div>;
+  // if (error)
+  //   return (
+  //     <div className="card card-bordered border-error p-8 text-error">
+  //       <div className="card-content"></div>
+  //       {error.toString()}
+  //     </div>
+  //   );
 
-    return () => {
-      controller.abort();
-      setRecipes([]);
-    }
-  }, []);
-
-  return <div className="p-4">
-    <h1 className="divider divider-start text-lg text-accent lg:text-2xl">All recipes</h1>
-    <div className="py-8 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-2">
-      {recipes.length ? recipes.map(recipe => <RecipeCard key={recipe._id} {...recipe} />) : "(Empty)"}
+  return (
+    <div className="p-4">
+      <h1 className="divider divider-start text-lg text-accent lg:text-2xl">
+        All recipes
+      </h1>
+      <div className="grid grid-cols-1 gap-2 py-8 sm:grid-cols-3 lg:grid-cols-5">
+        {recipes.length
+          ? recipes.map((recipe) => <RecipeCard key={recipe._id} {...recipe} />)
+          : "(Empty)"}
+      </div>
     </div>
-  </div>
+  );
 }

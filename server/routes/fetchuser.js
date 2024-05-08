@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const { tokenFromCookie, verifyJWT } = require("../helpers/jwts");
-const router = new Router;
+const router = new Router();
 
 const userModel = require("../models/User");
 
@@ -10,14 +10,21 @@ router.get("/", async (req, res) => {
 
   const { data, error } = verifyJWT(cookieToken);
   if (error) {
-    res.clearCookie("auth-token").send();
-  };
+    return res.clearCookie("auth-token").send();
+  }
 
-  const user = await userModel.findOne({
-    uid: data["uid"],
-  });
+  try {
+    const user = await userModel.findOne(
+      {
+        uid: data["uid"],
+      },
+      ["uname", "avatar", "favourites", "createdAt"]
+    );
 
-  res.send({ uname: user.uname, avatar: user.avatar });
+    res.send(user);
+  } catch (error) {
+    res.send({ error });
+  }
 });
 
 module.exports = router;

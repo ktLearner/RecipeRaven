@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { imgToObjectURL } from "../../helpers/utils";
 import moment from "moment";
 import { FaStar } from "react-icons/fa";
+import ProfileLink from "../Profile/ProfileLink";
 
 function RecipeTag(props) {
   return <span className="badge badge-primary">{props.text}</span>;
@@ -36,9 +37,7 @@ export default function RecipeCard(props) {
         </span>
         <span className="text-sm">
           Uploaded {moment(props.createdAt).fromNow()} by{" "}
-          <Link className="link link-primary" to={``}>
-            {props.createdBy.name}
-          </Link>
+          <ProfileLink uname={props.createdBy.name} uid={props.createdBy.id} />
         </span>
       </div>
     </div>

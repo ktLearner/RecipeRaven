@@ -13,18 +13,18 @@ export default function Login() {
   const { loginUser } = useAuth();
 
   const btnVariantMap = {
-    idle : "btn-accent",
+    idle: "btn-accent",
     error: "btn-accent",
-    loading : "",
-    success : "btn-success"
+    loading: "",
+    success: "btn-success",
   };
 
   const statusIconMap = {
-    idle : null,
+    idle: null,
     error: null,
-    loading : <span className='loading loading-spinner' />,
-    success : <FaCheck />
-  }
+    loading: <span className="loading loading-spinner" />,
+    success: <FaCheck />,
+  };
 
   function upload(e) {
     e.preventDefault();
@@ -33,38 +33,59 @@ export default function Login() {
     setStatus("loading");
     let data = new FormData(e.target);
     data = Object.fromEntries(data);
-    
-    server.post("/login", data)
-      .then(res => {
+
+    server
+      .post("/login", data)
+      .then((res) => {
         setStatus("success");
         const { data: resData } = res;
-        loginUser({...resData});
+        loginUser({ ...resData });
         navigate("/");
       })
-      .catch(err => {
+      .catch((err) => {
         setStatus("error");
         setError(err.response.data.error || err.message);
       });
   }
 
-  return <form onSubmit={upload} method="post" className="gap-2 p-8 sm:gap-4 bg-base-300 card fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 sm:w-max shadow-lg">
-    <h1 className="text-xl text-center font-bold text-accent p-4 bg-base-200 rounded">
-      Log In
-      <img className="inline animate-spin ml-2" src={reactLogo} />
-    </h1>
-    <div className="divider m-0 p-0"></div>
-    <div className="grid grid-rows-2 sm:grid-rows-none sm:grid-cols-2 items-center">
-      <label htmlFor="uname">Username or Email</label>
-      <input className="input input-bordered input-ghost" placeholder="Username/Email" name="uname" id="uname" required />
-    </div>
-    <div className="grid grid-rows-2 sm:grid-rows-none sm:grid-cols-2 items-center">
-      <label htmlFor="pass">Password</label>
-      <PasswordInput placeholder="Password" name="pass" id="pass" required />
-    </div>
-    {status === "error" && <div className="border rounded p-4 border-error text-error">{error}</div>}
-    <button className={`btn ${btnVariantMap[status]} hover:scale-105`}>Log In {statusIconMap[status]}</button>
-    <button className="btn hover:scale-105">Anonymous login</button>
-    <div className="divider">Don't have an account ?</div>
-    <Link to="/signup" className="btn btn-secondary hover:scale-105">Sign up!</Link>
-  </form>
+  return (
+    <form
+      onSubmit={upload}
+      method="post"
+      className="card fixed left-1/2 top-1/2 w-4/5 -translate-x-1/2 -translate-y-1/2 gap-2 bg-base-300 p-8 shadow-lg sm:w-max sm:gap-4"
+    >
+      <h1 className="rounded bg-base-200 p-4 text-center text-xl font-bold text-accent">
+        Log In
+        <img className="ml-2 inline animate-spin" src={reactLogo} />
+      </h1>
+      <div className="divider m-0 p-0"></div>
+      <div className="grid grid-rows-2 items-center sm:grid-cols-2 sm:grid-rows-none">
+        <label htmlFor="uname">Username or Email</label>
+        <input
+          className="input input-bordered input-ghost"
+          placeholder="Username/Email"
+          name="uname"
+          id="uname"
+          required
+        />
+      </div>
+      <div className="grid grid-rows-2 items-center sm:grid-cols-2 sm:grid-rows-none">
+        <label htmlFor="pass">Password</label>
+        <PasswordInput placeholder="Password" name="pass" id="pass" required />
+      </div>
+      {status === "error" && (
+        <div className="rounded border border-error p-4 text-error">
+          {error}
+        </div>
+      )}
+      <button className={`btn ${btnVariantMap[status]} hover:scale-105`}>
+        Log In {statusIconMap[status]}
+      </button>
+      <button className="btn hover:scale-105">Anonymous login</button>
+      <div className="divider">Don't have an account ?</div>
+      <Link to="/signup" className="btn btn-secondary hover:scale-105">
+        Sign up!
+      </Link>
+    </form>
+  );
 }
