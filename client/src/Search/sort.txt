@@ -1,6 +1,0 @@
-name
-cuisine
-ratings
-calories
-upload date - asc, desc
-no. of steps - asc, desc

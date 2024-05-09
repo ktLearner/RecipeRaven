@@ -52,7 +52,7 @@ router.get("/", async (req, res) => {
       title: findOrder(query.sort, "title"),
       cuisine: findOrder(query.sort, "cuisine"),
       calories: findOrder(query.sort, "calories"),
-      "createdAt": findOrder(query.sort, "createdAt"),
+      createdAt: findOrder(query.sort, "createdAt"),
       // "instructions": findOrder(query.sort, "stepCount"),
     };
 

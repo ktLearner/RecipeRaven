@@ -1,7 +1,10 @@
 export default function Stars({ avatar }) {
   return (
     <div className="rating items-center">
-      <img className="mask mask-circle mr-2 aspect-square h-12" src={avatar} />
+      <img
+        className="mr-2 aspect-square h-12 rounded-full border border-white border-opacity-25"
+        src={avatar}
+      />
       <input
         type="radio"
         name="recipe-rating"

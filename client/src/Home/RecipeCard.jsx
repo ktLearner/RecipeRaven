@@ -36,6 +36,11 @@ export default function RecipeCard(props) {
       <div className="card-body">
         <h1 className="card-title text-primary">{props.title}</h1>
         <span>Cuisine : {props.cuisine}</span>
+        <span className="badge flex items-center gap-1">
+          {props.avgRating}
+          <i className="mask mask-star-2 inline-block size-4 bg-yellow-200"></i>
+          {`(${props.totalReviews} reviews)`}
+        </span>
         {props.tags && (
           <span className="flex items-center gap-1 text-nowrap text-sm">
             {props.tags.map((tag, i) => (

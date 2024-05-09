@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useProfile } from "../hooks/userProfile";
 import PublicInfo from "./PublicInfo";
 import Favourites from "./Favourites";
@@ -12,6 +12,7 @@ export default function Profile() {
   const { profile, isLoading, error } = useProfile(params?.get("id"));
   const { recipes: favRecipes } = useRecipeFavs(params?.get("id"));
   const { recipes: createdRecipes } = useRecipeMy(params?.get("id"));
+  const navigate = useNavigate();
 
   if (!profile || error)
     return (
@@ -25,10 +26,10 @@ export default function Profile() {
   return (
     <>
       <div className="m-4 flex items-center justify-between rounded bg-base-200 p-4">
-        <Link to={"/"} className="group btn btn-link">
+        <button onClick={() => navigate(-1)} className="group btn btn-link">
           <IoIosArrowBack className="transition group-hover:-translate-x-1/2" />{" "}
-          Home
-        </Link>
+          Back
+        </button>
         <Link to="/" className="text-lg font-bold sm:text-2xl lg:text-3xl">
           Recipe<b className="text-yellow-300">Raven</b>
         </Link>

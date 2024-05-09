@@ -27,7 +27,7 @@ export default function RecipeCard(props) {
         </Link>
         <span className="text-sm">{props.cuisine}</span>
         <span className="flex items-center gap-2">
-          4.7 <FaStar className="text-yellow-200" />
+          {props.avgRating} <FaStar className="text-yellow-200" />
         </span>
         <span className="text-warning">{props.calories}</span>
         <span className="flex gap-2">

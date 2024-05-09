@@ -15,3 +15,12 @@ export async function fetchFavs() {
     throw e;
   }
 }
+
+export async function fetchRecipeMeta(path, params) {
+  try {
+    const { data } = await server.get("/recipe/"+path, {params})
+    return data;
+  } catch(e) {
+    throw e;
+  }
+}

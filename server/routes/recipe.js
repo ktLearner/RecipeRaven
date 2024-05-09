@@ -4,7 +4,6 @@ const { fetchUserFromUID } = require("../helpers/fetchUser");
 const router = new Router();
 const recipeModel = require("../models/Recipe");
 const userModel = require("../models/User");
-const crypto = require("crypto");
 
 async function recipePreprocess(req, res, next) {
   const { data: userData, error } = verifyJWT(req.cookies["auth-token"]);
@@ -117,8 +116,12 @@ router.get("/my", async (req, res) => {
 });
 
 router.get("/all", async (req, res) => {
-  const allRecipes = await recipeModel.find().exec();
-  res.send(allRecipes);
+  try {
+    const allRecipes = await recipeModel.find().exec();
+    res.send(allRecipes);
+  } catch(error) {
+    res.status(400).send(error);
+  }
 });
 
 router.get("/", async (req, res) => {
@@ -129,11 +132,12 @@ router.get("/", async (req, res) => {
     recipe = await recipeModel.findOne({
       _id: rid?.toString(),
     });
+
   } catch (e) {
     return res.status(400).send({ message: "Recipe not found", error: e });
   }
 
-  res.send(recipe);
+  res.send(recipe.toJSON({ virtuals: true }));
 });
 
 router.get("/favourites", async (req, res) => {
@@ -164,7 +168,7 @@ router.put("/favourites", async (req, res) => {
   if (!id) return res.status(400).send({ error: "Id not found" });
 
   try {
-    const doc = await userModel
+    await userModel
       .findOneAndUpdate(
         {
           uid: req.data.uid,
@@ -189,7 +193,7 @@ router.delete("/favourites", async (req, res) => {
   if (!id) return res.status(400).send({ error: "Id not found" });
 
   try {
-    const doc = await userModel
+    await userModel
       .findOneAndUpdate(
         {
           uid: req.data.uid,
@@ -214,14 +218,6 @@ router.get("/review", async (req, res) => {
 
   try {
     let { ratings } = await recipeModel.findOne({ _id: rid }, ["ratings"]);
-
-    // ratings = ratings.map(async (rating) => {
-    //   const uid = rating.user;
-    //   const user = await userModel.findOne({ _id: uid }, ["uname", "avatar"]);
-    //   rating.user = user;
-    // });
-
-    console.log(ratings);
     res.send(ratings);
   } catch (error) {
     res.status(400).send({ error });
@@ -232,7 +228,10 @@ router.post("/review", async (req, res) => {
   try {
     const { uid, stars, review } = req.body;
 
-    const recipeDoc = await recipeModel
+    const userDoc = await userModel.findOne({_id: uid}, ["uname", "avatar"])
+      .exec();
+    
+    await recipeModel
       .findOneAndUpdate(
         {
           _id: req.query["rid"],
@@ -240,7 +239,11 @@ router.post("/review", async (req, res) => {
         {
           $push: {
             ratings: {
-              user: uid,
+              user: {
+                uname: userDoc.uname,
+                avatar: userDoc.avatar,
+                uid: userDoc._id
+              },
               rating: stars,
               review,
             },
@@ -249,17 +252,31 @@ router.post("/review", async (req, res) => {
       )
       .exec();
 
-    await recipeModel
-      .findOne({
-        _id: req.query["rid"],
-      })
-      .populate("ratings")
-      .exec();
-
-    console.log(recipeDoc);
+    // await recipeModel
+    //   .findOne({
+    //     _id: req.query["rid"],
+    //   }).populate("ratings.user", ["uname", "avatar", "_id"])
+    //   .exec();
+    res.send();
   } catch (error) {
     res.status(400).send({ error });
   }
 });
+
+router.get("/tags", async (req, res) => {
+  const q = req.query["sort"];
+
+  try {
+    const tags = await recipeModel.find({
+        tags: new RegExp(q, "i")
+    }).exec();
+
+    const data = [...new Set(tags.map(tag => (tag.tags)).flat())];
+    res.send(data);
+  } catch (error) {
+    console.log("error");
+    res.status(400).send({ error });
+  }
+})
 
 module.exports = router;

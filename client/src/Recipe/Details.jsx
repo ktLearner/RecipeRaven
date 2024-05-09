@@ -80,6 +80,11 @@ export default function RecipeDetails() {
           </span>
           <span>{pageData.cuisine}</span>
           <span className="text-warning">{pageData.calories}</span>
+          <span className="flex items-center gap-1">
+            {pageData.avgRating}{" "}
+            <i class="mask mask-star-2 inline-block size-4 bg-yellow-200" />
+            <span className="text-xs">{`(${pageData.totalReviews} reviews)`}</span>
+          </span>
           <span className="flex gap-2">
             {pageData.tags?.map((tag, i) => (
               <RecipeTag key={i} text={tag} />

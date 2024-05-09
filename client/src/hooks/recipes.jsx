@@ -176,3 +176,34 @@ export function useRecipeFavs(uid) {
 
   return { recipes, error, isLoading };
 }
+
+export function useReviews(rid, refresh) {
+  const [reviews, setReviews] = useState([]);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const params = { rid };
+
+    setIsLoading(true);
+    server
+      .get("/recipe/review", {
+        signal: controller.signal,
+        params,
+      })
+      .then((res) => {
+        setReviews(res.data);
+        setError(null);
+      })
+      .catch((err) => {
+        setError(err);
+        setReviews([]);
+      })
+      .finally(() => setIsLoading(false));
+
+    return () => controller.abort();
+  }, [rid, refresh]);
+
+  return { reviews, error, isLoading };
+}
