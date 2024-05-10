@@ -5,7 +5,7 @@ import SearchBar from "./SearchBar";
 import SearchResultCards from "./SearchResultCards";
 
 export default function SearchPage() {
-  const [fullSearchQuery, setFullSearchQuery] = useState(["", [], []]);
+  const [fullSearchQuery, setFullSearchQuery] = useState(["", [], ""]);
   const { recipes, isLoading } = useRecipes(...fullSearchQuery);
 
   return (

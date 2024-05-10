@@ -26,35 +26,45 @@ function ChipSelect({ label, dispatch, route }) {
 
   return (
     <>
-      {label}{" "}
-      <span>
-        <span>
-          {selected.map((s) => (
-            <span className="badge text-nowrap">
-              {s}{" "}
-              <button
-                onClick={() => {
-                  setSelected((prev) => {
-                    const i = prev.findIndex((t) => t === s);
-                    return [...prev.slice(0, i), ...prev.slice(i + 1)];
-                  });
-                }}
-              >
-                &times;
-              </button>
-            </span>
-          ))}
-        </span>
-        <input className="input input-bordered" onInput={inputHandler} />
-        <button onClick={() => setMenuOpen((prev) => !prev)}>
-          <FaArrowDown />
-        </button>
-      </span>
+      <div className="flex flex-col">
+        <span className="self-start">{label}</span>
+        <div className="no-scrollbar gap-1">
+          <div className="flex flex-wrap gap-1 pb-2">
+            {selected.map((s) => (
+              <span key={s} className="badge badge-primary text-nowrap">
+                {s}{" "}
+                <button
+                  onClick={() => {
+                    setSelected((prev) => {
+                      const i = prev.findIndex((t) => t === s);
+                      return [...prev.slice(0, i), ...prev.slice(i + 1)];
+                    });
+                  }}
+                >
+                  &times;
+                </button>
+              </span>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <input
+              className="input input-bordered flex-grow"
+              onInput={inputHandler}
+            />
+            <button
+              className="btn btn-square btn-ghost"
+              onClick={() => setMenuOpen((prev) => !prev)}
+            >
+              <FaArrowDown />
+            </button>
+          </div>
+        </div>
+      </div>
       <ul className={`${menuOpen ? "menu" : "hidden"}`}>
         {fetchedTags.map((tag) => {
           if (selected.includes(tag)) return "";
           return (
-            <li>
+            <li key={tag}>
               <a onClick={() => setSelected((prev) => [...prev, tag])}>{tag}</a>
             </li>
           );
@@ -84,9 +94,24 @@ export default function Filter() {
     Array.isArray(c.selected) ? c.selected.length : c.selected,
   ).length;
 
+  const query = filterCriteria
+    .filter((c) => (Array.isArray(c.selected) ? c.selected.length : c.selected))
+    .map((c) => {
+      switch (c.value) {
+        case "tags":
+          return c.selected.map((t) => "t=" + t).join("&");
+
+        case "allergens":
+          return c.selected.map((a) => "a=" + a).join("&");
+
+        default:
+          return "";
+      }
+    })
+    .join("&");
+
   function reducer(state, action) {
     let criteria = [...state];
-    console.log(state, action);
 
     switch (action.type) {
       case "tags":
@@ -110,12 +135,9 @@ export default function Filter() {
 
   return (
     <div className="dropdown dropdown-end dropdown-hover join-item">
-      {filterCriteria[0].selected.map((c) => (
-        <i>{c.name}</i>
-      ))}
       <button type="button" className="btn dropdown btn-outline join-item">
         <FaFilter />
-        <input type="hidden" id="filter" name="filter" />
+        <input value={query} type="hidden" id="filter" name="filter" />
         {applied ? (
           <span className="badge badge-info badge-xs absolute left-1 top-1">
             {applied}

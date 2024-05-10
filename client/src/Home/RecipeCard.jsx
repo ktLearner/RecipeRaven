@@ -55,7 +55,7 @@ export default function RecipeCard(props) {
             ))}
           </span>
         )}
-        <span className="line-clamp-2 py-2 text-sm">{props.description}</span>
+        <span className="line-clamp-3 py-2 text-sm">{props.description}</span>
         <span className="text-sm">
           By <span className="text-primary">{props.createdBy.name}</span>
         </span>

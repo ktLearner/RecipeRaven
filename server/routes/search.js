@@ -36,6 +36,7 @@ router.get("/", async (req, res) => {
 
   let recipes = [];
 
+  console.log(req.query)
   if (query.sort) {
     if (typeof query.sort === "string") {
       const [key, order] = query.sort.split("-");
@@ -56,6 +57,27 @@ router.get("/", async (req, res) => {
       // "instructions": findOrder(query.sort, "stepCount"),
     };
 
+    let tagFilter = /.*/;
+    if (query.t) {
+      if (typeof query.t === "string") tagFilter = query.t;
+      else if (Array.isArray(query.t)) tagFilter = {
+        $all : query.t,
+      }
+    }
+
+    let allergenFilter = /.*/;
+    if (query.a) {
+      if (typeof query.a === "string") allergenFilter = query.a;
+      else if (Array.isArray(query.a)) allergenFilter = {
+        $all : query.a,
+      }
+    }
+
+    const filterCriteria = {
+      tags : tagFilter,
+      allergens: allergenFilter
+    };
+
     sortCriteria = Object.fromEntries(
       Object.entries(sortCriteria).filter(([_, v]) => v)
     );
@@ -64,6 +86,7 @@ router.get("/", async (req, res) => {
       ? await recipeModel
           .find({
             title: new RegExp(query["q"], "i"),
+            ...filterCriteria
           })
           .sort(sortCriteria)
           .exec()

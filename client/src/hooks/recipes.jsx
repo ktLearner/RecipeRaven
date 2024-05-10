@@ -50,13 +50,13 @@ export function useRecipesAll() {
   return { recipes, error, isLoading };
 }
 
-export function useRecipes(name, sort = [], filters = []) {
+export function useRecipes(name, sort = [], filters) {
   const [recipes, setRecipes] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const sortQ = sort && sort.map((s) => "sort=" + s).join("&");
-  let query = `q=${name}${sortQ ? "&" + sortQ : ""}`;
+  let query = `q=${name}${sortQ ? "&" + sortQ : ""}${filters ? "&" + filters : ""}`;
 
   useEffect(() => {
     const controller = new AbortController();

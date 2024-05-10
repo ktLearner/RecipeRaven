@@ -25,9 +25,10 @@ export default function SearchBar({ setFullSearchQuery }) {
     const query = {
       q: form.q.value,
       s: form.sort.value,
+      f: form.filter.value,
     };
 
-    setFullSearchQuery([query.q, query.s && query.s.split(",")]);
+    setFullSearchQuery([query.q, query.s && query.s.split(","), query.f || ""]);
   }
 
   return (

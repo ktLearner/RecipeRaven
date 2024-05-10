@@ -6,7 +6,7 @@ import { FaStar } from "react-icons/fa";
 import ProfileLink from "../Profile/ProfileLink";
 
 function RecipeTag(props) {
-  return <span className="badge badge-primary">{props.text}</span>;
+  return <span className="badge badge-primary text-nowrap">{props.text}</span>;
 }
 
 export default function RecipeCard(props) {
