@@ -29,7 +29,7 @@ export default function RecipeCard(props) {
   }, []);
 
   return (
-    <div className="card shrink-0 bg-base-300 max-sm:card-side">
+    <div className="card shrink-0 bg-base-300">
       <figure className="p-4">
         <img src={img} className="size-52 rounded" alt="Recipe image" />
       </figure>
@@ -42,14 +42,14 @@ export default function RecipeCard(props) {
           {`(${props.totalReviews} reviews)`}
         </span>
         {props.tags && (
-          <span className="flex items-center gap-1 text-nowrap text-sm">
+          <span className="no-scrollbar flex items-center gap-1 overflow-auto text-nowrap text-sm">
             {props.tags.map((tag, i) => (
               <RecipeTag key={i} text={tag} />
             ))}
           </span>
         )}
         {props.allergens && (
-          <span className="flex items-center gap-1 text-sm">
+          <span className="no-scrollbar flex items-center gap-1 overflow-auto text-sm">
             {props.allergens.map((allergen, i) => (
               <RecipeAllergen key={i} text={allergen} />
             ))}

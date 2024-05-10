@@ -87,7 +87,7 @@ export default function CookRecipe() {
     <section className="flex flex-col gap-2 p-4">
       <div className="text-xl text-primary">{title}</div>
       <div className="flex items-center justify-between py-4">
-        <Timeline finished={finishedStepCount} total={data.length + 12} />
+        <Timeline finished={finishedStepCount} total={data.length} />
         {timers[currStepCount]}
       </div>
 

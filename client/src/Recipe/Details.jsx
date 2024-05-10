@@ -73,7 +73,13 @@ export default function RecipeDetails() {
   return (
     <section className="p-4">
       <div className="grid gap-4 sm:grid-cols-2">
-        <img src={pageData.imageUrl} className="aspect-square object-cover" />
+        <figure className="w-full overflow-hidden rounded bg-base-200">
+          <img
+            src={pageData.imageUrl}
+            className="aspect-square w-full object-contain"
+          />
+        </figure>
+
         <div className="flex flex-col gap-2 rounded-lg bg-base-300 p-4">
           <span className="text-xl font-bold text-accent">
             {pageData.title}
@@ -82,7 +88,7 @@ export default function RecipeDetails() {
           <span className="text-warning">{pageData.calories}</span>
           <span className="flex items-center gap-1">
             {pageData.avgRating}{" "}
-            <i class="mask mask-star-2 inline-block size-4 bg-yellow-200" />
+            <i className="mask mask-star-2 inline-block size-4 bg-yellow-200" />
             <span className="text-xs">{`(${pageData.totalReviews} reviews)`}</span>
           </span>
           <span className="flex gap-2">

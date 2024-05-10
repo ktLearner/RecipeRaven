@@ -1,4 +1,4 @@
-import { useCallback, useReducer, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import { debounce } from "../../helpers/utils";
 import { FaArrowDown, FaFilter } from "react-icons/fa";
 import { fetchRecipeMeta } from "../../helpers/recipe";
@@ -19,6 +19,10 @@ function ChipSelect({ label, dispatch, route }) {
     }, 200),
     [],
   );
+
+  useEffect(() => {
+    dispatch(selected);
+  }, [selected]);
 
   return (
     <>
@@ -64,24 +68,59 @@ export default function Filter() {
   const [filterCriteria, dispatchFilter] = useReducer(reducer, [
     { name: "Tags", value: "tags", selected: [] },
     { name: "Allergens", value: "allergens", selected: [] },
-    { name: "Calories", min: 0, max: 10000 },
+    {
+      name: "Calories",
+      min: 0,
+      max: 10000,
+      selectedMin: 0,
+      selectedMax: 10000,
+      selected: false,
+    },
     { name: "Cuisine", selected: null },
     { name: "Creator", selected: [] },
   ]);
 
-  function reducer() {}
+  const applied = filterCriteria.filter((c) =>
+    Array.isArray(c.selected) ? c.selected.length : c.selected,
+  ).length;
+
+  function reducer(state, action) {
+    let criteria = [...state];
+    console.log(state, action);
+
+    switch (action.type) {
+      case "tags":
+        criteria = [...state];
+        criteria[0].selected = action.payload;
+        return criteria;
+
+      case "allergens":
+        criteria = [...state];
+        criteria[1].selected = action.payload;
+        return criteria;
+
+      default:
+        return [];
+    }
+  }
+
+  function dispatcher(value) {
+    return (payload) => dispatchFilter({ type: value, payload });
+  }
 
   return (
-    <div className="dropdown dropdown-end dropdown-open dropdown-hover join-item">
-      <button
-        type="button"
-        className="btn dropdown btn-outline join-item relative"
-      >
+    <div className="dropdown dropdown-end dropdown-hover join-item">
+      {filterCriteria[0].selected.map((c) => (
+        <i>{c.name}</i>
+      ))}
+      <button type="button" className="btn dropdown btn-outline join-item">
         <FaFilter />
         <input type="hidden" id="filter" name="filter" />
-        <span className="badge badge-info badge-xs absolute left-1 top-1">
-          2
-        </span>
+        {applied ? (
+          <span className="badge badge-info badge-xs absolute left-1 top-1">
+            {applied}
+          </span>
+        ) : null}
       </button>
 
       <ul
@@ -89,7 +128,18 @@ export default function Filter() {
         className="menu dropdown-content z-[1] rounded-box bg-base-100 p-2 shadow"
       >
         <li>
-          <ChipSelect label={"Tags"} route={"tags"} dispatch={dispatchFilter} />
+          <ChipSelect
+            label={"Tags"}
+            route={"tags"}
+            dispatch={dispatcher("tags")}
+          />
+        </li>
+        <li>
+          <ChipSelect
+            label={"Allergens"}
+            route={"allergens"}
+            dispatch={dispatcher("allergens")}
+          />
         </li>
       </ul>
     </div>

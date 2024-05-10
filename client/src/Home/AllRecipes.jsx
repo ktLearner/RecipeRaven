@@ -7,13 +7,6 @@ export default function AllRecipes() {
   const { recipes, error, isLoading } = useRecipesAll();
 
   if (isLoading) return <div className="loading loading-spinner"></div>;
-  // if (error)
-  //   return (
-  //     <div className="card card-bordered border-error p-8 text-error">
-  //       <div className="card-content"></div>
-  //       {error.toString()}
-  //     </div>
-  //   );
 
   return (
     <div className="p-4">

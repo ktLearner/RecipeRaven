@@ -279,4 +279,20 @@ router.get("/tags", async (req, res) => {
   }
 })
 
+router.get("/allergens", async (req, res) => {
+  const q = req.query["sort"];
+
+  try {
+    const allergens = await recipeModel.find({
+        allergens: new RegExp(q, "i")
+    }).exec();
+    
+    const data = [...new Set(allergens.map(allergen => (allergen.allergens)).flat())];
+    res.send(data);
+  } catch (error) {
+    console.log("error");
+    res.status(400).send({ error });
+  }
+})
+
 module.exports = router;
